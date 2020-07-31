@@ -11,10 +11,15 @@ module.exports = {
     resolve:{
         modules:[path.join(__dirname, 'source'), path.resolve('node_modules')],
     },
+    devServer:{
+        port: 4324,
+        open: true,
+        hot: true,
+    },
     plugins:[
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'public/index.html'),
-        })
+        }),
     ]
 }
