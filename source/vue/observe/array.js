@@ -6,7 +6,7 @@ import {
 
 const arrPrototype = Array.prototype;
 
-export const arrayMethods = Object.create(arrPrototype);
+export const arrayMethods = Object.create(arrPrototype); // 作为被观测数组的新原型。
 
 const methods = [
     'push',
@@ -19,13 +19,12 @@ const methods = [
 ];
 export function observeArray(array) {
     for (let i = 0; i < array.length; ++i) {
-        observe(array[i]);
+        observe(array[i]); // 对新插入的数组/对象进行观测
     }
 }
 methods.forEach(method => {
-    arrayMethods[method] = function (...args) {
-        // console.log('调用数据的更新方法：', method);
-        let inserted;
+    arrayMethods[method] = function (...args) { // 劫持数组的变形操作方法
+        let inserted; // 判断是否插入新元素
         switch (method) {
             case 'push':
             case 'unshift':
@@ -37,12 +36,12 @@ methods.forEach(method => {
             default:
                 break;
         }
-        inserted && observeArray(inserted);
-        this._observer.arrayDep.notify(true); // 通知视图更新
+        inserted && observeArray(inserted); // 如果插入新元素则也会对它们进行观测。
+        this._observer.arrayDep.notify(true); // 通知依赖当前数组属性的watcher更新(调用watcher.run)
         return arrPrototype[method].apply(this, args);
     }
 });
-export function dependArray(array) { // 观测数组属性的嵌套数组的变化，
+export function dependArray(array) { // 让Dep.target(栈顶watcher)观测嵌套数组的变化，
     for (const v of array) {
         v._observer && v._observer.arrayDep && v._observer.arrayDep.depend();
         if (Array.isArray(v)) {

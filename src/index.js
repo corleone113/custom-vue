@@ -97,21 +97,25 @@ setTimeout(() => {
         background: 'green',
         key: 'f'
     },{
-        background: 'indianred',
-        key: 'e'
-    },{
         background: 'red',
         key: 'a'
-    }, {
-        background: 'yellow',
-        key: 'b'
+    },{
+        background: 'indianred',
+        key: 'e'
     }, {
         background: 'blue',
         key: 'c'
     }, {
+        background: 'yellow',
+        key: 'b'
+    }, {
         background: 'pink',
         key: 'd'
-    }, ]
+    },
+    {
+        background: 'darkblue',
+        key: 'd1'
+    },]
 }, 2000);
 if(module.hot && process.env.NODE_ENV !== 'production'){
     module.hot.accept();

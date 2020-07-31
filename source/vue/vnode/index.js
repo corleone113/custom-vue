@@ -1,17 +1,23 @@
-import {render, patch} from './patch';
-function createElement(tag, props, ...children){
+import {
+    render,
+    patch
+} from './patch';
+
+function createElement(tag, props, ...children) { // 创建vnode
     const key = props.key;
     delete props.key;
     children = children.map(child => {
-        if(typeof child === 'object'){
+        if (typeof child === 'object') { // 为对象说明是vnode
             return child;
-        }else { // 文本节点
-            return vnode(undefined,undefined,undefined,undefined,child);
+        } else if(typeof child === 'number' || typeof child === 'string') { // 文本节点
+            return vnode(undefined, undefined, undefined, undefined, child);
         }
+        return null;
     })
-    return vnode(tag,props,key,children);
+    return vnode(tag, props, key, children);
 }
-function vnode(tag, props,key,children, text){
+
+function vnode(tag, props, key, children, text) {
     return {
         tag,
         props,
