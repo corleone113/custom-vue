@@ -9,6 +9,7 @@ import {
 import Dep from './dep';
 export default class Observer {
     constructor(data) { // data为要进行观测的对象。
+        this.value = data;
         Object.defineProperty(data, '_observer', { // 为观测的对象添加_observer属性，以便复用。
             get: () => this,
         })
@@ -21,7 +22,7 @@ export default class Observer {
         }
     }
     walk(data) { // 遍历并劫持对象的各个属性
-        for (const key in data) {
+        for (const key of Object.keys(data)) {
             const value = data[key];
             defineReactive(data, key, value);
         }
