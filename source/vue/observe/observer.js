@@ -13,8 +13,8 @@ export default class Observer {
             get: () => this,
         })
         if (Array.isArray(data)) {
-            this.arrayDep = new Dep(); // 创建Dep实例存放观测数组变形操作的watcher
-            Object.setPrototypeOf(data, arrayMethods); // 修改原型对象实现对变形操作方法的劫持
+            this.arrayDep = new Dep(); // 创建Dep实例存放观测数组变更操作的watcher
+            Object.setPrototypeOf(data, arrayMethods); // 修改原型对象实现对变更操作方法的劫持
             observeArray(data); // 观测数组中的对象。
         } else {
             this.walk(data); // 观察非数组对象。
@@ -32,11 +32,11 @@ export function defineReactive(targ, key, value) { // 递归地劫持对象的�
     const dep = new Dep(); // 创建和当前被劫持属性对应的Dep实例。
     Object.defineProperty(targ, key, {
         get() {
-            if (Dep.target) { // Dep.target表示Dep模块的watcher栈的栈顶元素，该watcher执行get方法时会入Dep.target栈然后访问vm某个属性，所以Dep.target表示依赖于当前属性的watcher。
+            if (Dep.target) { // Dep.target表示Dep模块的watcher栈的栈顶元素，该watcher执行get方法时会入Dep.target栈，而watcher执行表达式时会访问vm某个属性，接着就到了这里。
                 dep.depend(); // 将当前dep放到Dep栈顶watcher的dep列表中，然后会将栈顶watcher缓存到当前属性对应的dep中，这样该watcher就可以观测当前属性的变化了。
                 if (childOb && childOb.arrayDep) { // arrayDep存在说明value是数组属性
-                    childOb.arrayDep.depend(); // 同上，这里是为了让栈顶watcher观测数组的变形操作
-                    dependArray(value); // 让栈顶watcher观测嵌套数组的变形操作。
+                    childOb.arrayDep.depend(); // 同上，这里是为了让栈顶watcher观测数组的变更操作
+                    dependArray(value); // 让栈顶watcher观测嵌套数组的变更操作。
                 }
             }
             return value;

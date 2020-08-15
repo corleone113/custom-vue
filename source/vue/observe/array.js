@@ -23,7 +23,7 @@ export function observeArray(array) {
     }
 }
 methods.forEach(method => {
-    arrayMethods[method] = function (...args) { // 劫持数组的变形操作方法
+    arrayMethods[method] = function (...args) { // 劫持数组的变更操作方法
         let inserted; // 判断是否插入新元素
         switch (method) {
             case 'push':
@@ -41,7 +41,7 @@ methods.forEach(method => {
         return arrPrototype[method].apply(this, args);
     }
 });
-export function dependArray(array) { // 让Dep.target(栈顶watcher)观测嵌套数组的变化，
+export function dependArray(array) { // 让Dep.target(栈顶watcher)观测嵌套数组的变更，
     for (const v of array) {
         v._observer && v._observer.arrayDep && v._observer.arrayDep.depend();
         if (Array.isArray(v)) {

@@ -19,7 +19,7 @@ export default class Watcher{ // 用于Vue渲染虚拟DOM、实现watch选项/$w
                 return getValue(vm, exprOrFn);// 其它情况下exprOrFn应该为键路径字符串，此时根据键路径(比如:'a.b.c')将vm上对应的属性取出来
             }
         }
-        this.dirty = this.lazy = opts.lazy; // 如果lazy为true，说明是计算属性。dirty表示观测的组件属性(数据属性/计算属性)/表达式是否发生变化。
+        this.dirty = this.lazy = opts.lazy; // 如果lazy为true，说明是计算属性。dirty表示观测的组件属性(数据属性/计算属性)/表达式是否发生变化，初始值设置为传入的opts.lazy。
         this.immediate = opts.immediate;
         this.cb= cb; // 观测到属性/表达式变化时执行的回调
         this.opts=opts;
@@ -41,7 +41,7 @@ export default class Watcher{ // 用于Vue渲染虚拟DOM、实现watch选项/$w
         if(this.lazy){ // 对于计算属性的watcher，则暂时先不通知更新
             this.dirty = true;
         }else { // 非懒加载模式则进行更新
-            this.force = force; // force为true表示强制更新。
+            this.force = force; // force为true表示强制更新，用于处理数组的变更发起的更新。
             queueWather(this); // 先将当前watcher放入队列中再批量更新
         }
     }

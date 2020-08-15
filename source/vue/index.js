@@ -16,7 +16,7 @@ Vue.prototype._init = function (options) {
 
     // 开始挂载
     if (vm.$options.el) {
-        vm.$mount();
+        vm.$mount(vm.$options.el);
     }
 }
 Vue.prototype._update = function(vnode){
@@ -36,9 +36,8 @@ Vue.prototype._render = function(){ // 生成vnode
     const {render} = vm.$options;
     return render.call(vm, createElement);
 };
-Vue.prototype.$mount = function () {
+Vue.prototype.$mount = function (el) {
     const vm = this
-    let { el } = vm.$options;
     el = vm.$el = query(el);
     // 渲染时通过watcher进行
     // 渲染watcher

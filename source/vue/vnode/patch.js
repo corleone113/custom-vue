@@ -93,7 +93,7 @@ function updateChildren(parent, oldChildren, newChildren) {
     let oldStartIndex = 0, // 旧的头索引
         oldStartVnode = oldChildren[oldStartIndex]; // 旧的头节点
     let oldEndIndex = oldChildren.length - 1, // 旧的尾索引
-        oldEndVnode = oldChildren[oldEndIndex]; // 旧的尾索引
+        oldEndVnode = oldChildren[oldEndIndex]; // 旧的尾节点
 
     const map = makeIndexByKey(oldChildren); // 旧的子节点的key到索引的map
 
