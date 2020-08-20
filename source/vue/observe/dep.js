@@ -11,14 +11,14 @@ export default class Dep { // 用于收集watcher(依赖)，并利用watcher通�
         this.subs.forEach(w => {
             w.update(force);
             // 执行完后清空watcher上缓存的dep实例
-           Array.isArray(w.deps) && (w.deps.length = 0);
-           w.depIds instanceof Set && w.depIds.clear();
+            Array.isArray(w.deps) && (w.deps.length = 0);
+            w.depIds instanceof Set && w.depIds.clear();
         });
         this.subs.length = 0; // 执行完后回收空间。
     }
-    depend(){ // 让栈顶watcher添加当前Dep实例，添加时该Dep又会通过addSub将栈顶watcher添加到缓存数组中，从而实现watcher对Dep对应的属性的观测(依赖)。
-        if(Dep.target){
-           Dep.target.addDep(this); 
+    depend() { // 让栈顶watcher添加当前Dep实例，添加时该Dep又会通过addSub将栈顶watcher添加到缓存数组中，从而实现watcher对Dep对应的属性的观测(依赖)。
+        if (Dep.target) {
+            Dep.target.addDep(this);
         }
     }
 }
