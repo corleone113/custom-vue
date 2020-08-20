@@ -43,8 +43,8 @@ methods.forEach(method => {
 });
 export function dependArray(array) { // 让Dep.target(栈顶watcher)观测嵌套数组的变更，
     for (const v of array) {
-        v._observer && v._observer.arrayDep && v._observer.arrayDep.depend();
-        if (Array.isArray(v)) {
+        if (v._observer && v._observer.arrayDep) {
+            v._observer.arrayDep.depend();
             dependArray(v);
         }
     }
