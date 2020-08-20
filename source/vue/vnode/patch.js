@@ -8,7 +8,7 @@ export function render(vnode, container) { // 挂载真实DOM节点
 }
 // 创建真实DOM节点
 function createEl(vnode) {
-    if(vnode === null){
+    if (vnode === null) {
         return document.createTextNode('');
     }
     const {
@@ -22,7 +22,7 @@ function createEl(vnode) {
         vnode.el = document.createElement(tag);
         updateProps(vnode);
         children.forEach(child => { // 渲染子节点
-            return render(child, vnode.el);
+            render(child, vnode.el);
         });
     } else { // 创建文本节点
         vnode.el = document.createTextNode(text);
@@ -30,7 +30,7 @@ function createEl(vnode) {
     return vnode.el;
 }
 
-function updateProps(vnode, oldProps = {}) {// 暂时只做简单处理。
+function updateProps(vnode, oldProps = {}) { // 暂时只做简单处理。
     const {
         el,
         props: newProps = {}
@@ -47,7 +47,7 @@ function updateProps(vnode, oldProps = {}) {// 暂时只做简单处理。
             delete el[key];
         }
     }
-    for (const key in newProps) {// 更新时用新的属性更新节点
+    for (const key in newProps) { // 更新时用新的属性更新节点
         if (key === 'style') {
             for (const styleName in newProps.style) {
                 el.style[styleName] = newProps.style[styleName];
@@ -106,7 +106,7 @@ function updateChildren(parent, oldChildren, newChildren) {
             oldStartVnode = oldChildren[++oldStartIndex];
         } else if (!oldEndVnode) { // 旧的尾节点为undefined则后旧的尾指针向前移动一位
             oldEndVnode = oldChildren[--oldEndIndex];
-        } else if (isSameVnode(oldStartVnode, newStartVnode)) {// 新旧头节点之间可以复用时
+        } else if (isSameVnode(oldStartVnode, newStartVnode)) { // 新旧头节点之间可以复用时
             patch(oldStartVnode, newStartVnode); // 比对这两个节点。
             oldStartVnode = oldChildren[++oldStartIndex]; // 新旧头指针向后移动一位
             newStartVnode = newChildren[++newStartIndex];
@@ -126,7 +126,7 @@ function updateChildren(parent, oldChildren, newChildren) {
             newStartVnode = newChildren[++newStartIndex]; // 新头指针向后移动一位
         } else { // 以上六种情况之外的情况——两个子节点列表发生乱序或存在不能复用的情况
             const moveIndex = map[newStartVnode.key]; // 用新头节点的key在旧节点map中查询是否有相同(可复用)的节点，找到则保存其索引。
-            if (moveIndex == undefined) {// 没有找到则在旧头节点之前插入新头节点。
+            if (moveIndex == undefined) { // 没有找到则在旧头节点之前插入新头节点。
                 parentInsert(parent, createEl(newStartVnode), oldStartVnode.el);
             } else {
                 const moveNode = oldChildren[moveIndex]; // 找到了则获取对应旧节点。
@@ -134,7 +134,7 @@ function updateChildren(parent, oldChildren, newChildren) {
                 patch(moveNode, newStartVnode); // 比对新旧节点。
                 parentInsert(parent, moveNode.el, oldStartVnode.el); // 将找到的旧节点移动到旧头节点之前
             }
-            newStartVnode = newChildren[++newStartIndex];// 这种情况下将新的头指针向后移动一位。
+            newStartVnode = newChildren[++newStartIndex]; // 这种情况下将新的头指针向后移动一位。
         }
     }
     if (newStartIndex <= newEndIndex) { // 最后还剩余新节点的话，将新节点插入到DOM中
