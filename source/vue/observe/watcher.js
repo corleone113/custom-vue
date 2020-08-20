@@ -75,8 +75,10 @@ const queue = []; // 存放需要调用run方法的watcher的队列
 let has = {}; // 判断watcher是否已经添加到queue中
 const cbs = [];
 function flushCallback(){ // 依次执行缓存的回调，然后清空数组。
-    cbs.forEach(cb=>cb());
-    cbs.length = 0;
+    if(cbs.length){
+        cbs.forEach(cb=>cb());
+        cbs.length = 0;
+    }
 }
 function nextTick(cb){ // 延时函数
     cbs.push(cb); // 先将回调放入数组中，待事件循环末尾再依次执行。
