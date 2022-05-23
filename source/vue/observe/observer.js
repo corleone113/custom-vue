@@ -28,10 +28,10 @@ export default class Observer {
         }
     }
 }
-export function defineReactive(targ, key, value) { // 递归地劫持对象的属性
+export function defineReactive(target, key, value) { // 递归地劫持对象的属性
     const childOb = observe(value); // 若属性值为对象，那么也对其属性进行劫持
     const dep = new Dep(); // 创建和当前被劫持属性对应的Dep实例。
-    Object.defineProperty(targ, key, {
+    Object.defineProperty(target, key, {
         get() {
             if (Dep.target) { // Dep.target表示Dep模块的watcher栈的栈顶元素，该watcher执行get方法时会入Dep.target栈，而watcher执行表达式时会访问vm某个属性，接着就到了这里。
                 dep.depend(); // 将当前dep放到Dep栈顶watcher的dep列表中，然后会将栈顶watcher缓存到当前属性对应的dep中，这样该watcher就可以观测当前属性的变化了。
@@ -40,12 +40,12 @@ export function defineReactive(targ, key, value) { // 递归地劫持对象的�
                     dependArray(value); // 让栈顶watcher观测嵌套数组的变更操作。
                 }
             }
-            return value;
+            return value; // 引用闭包变量
         },
         set(newVal) {
             if (newVal === value) return;
             observe(newVal); // 如果设置的值为对象那么也要进行观测。
-            value = newVal;
+            value = newVal; // 修改闭包变量
             dep.notify(); // 通知依赖该属性的watcher进行更新。
         }
     })

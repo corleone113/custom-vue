@@ -11,13 +11,7 @@ function createEl(vnode) {
     if (vnode === null) {
         return document.createTextNode('');
     }
-    const {
-        tag,
-        children,
-        key,
-        props,
-        text
-    } = vnode;
+    const { tag, children, text } = vnode;
     if (typeof tag === 'string') { // tag为字符串则创建元素DOM
         vnode.el = document.createElement(tag);
         updateProps(vnode);
@@ -139,7 +133,7 @@ function updateChildren(parent, oldChildren, newChildren) {
     }
     if (newStartIndex <= newEndIndex) { // 最后还剩余新节点的话，将新节点插入到DOM中
         for (let i = newStartIndex; i <= newEndIndex; ++i) {
-            const ele = newChildren[newEndIndex + 1] == null ? null : newChildren[newEndIndex + 1].el; // 新尾指针的下个位置指向若为null或这个位置对应节点的el为undefined那么表示应该在尾部插入新节点，否则这个位置节点的el属性指向真实DOM节点的第一个子节点，此时应该插入到它之前。
+            const ele = newChildren[newEndIndex + 1] == null ? null : newChildren[newEndIndex + 1].el; // 新尾指针的下个位置指向若为null或这个位置对应节点的el为undefined那么表示应该在尾部插入新节点，否则(即newEndIndex不为newChildren.length-1,也就是不为最后一个子节点的情况下)这个位置节点的el属性指向真实DOM节点的第一个子节点，此时应该插入到它之前。
             parentInsert(parent, createEl(newChildren[i]), ele);
         }
     }

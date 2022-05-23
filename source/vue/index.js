@@ -44,7 +44,7 @@ Vue.prototype.$mount = function (el) {
     const updateComponent = ()=>{
         vm._update(vm._render()); // 创建/更新vnode，然后生成/更新DOM并绘制页面
     }
-    new Watcher(vm, updateComponent); // 渲染watcher，默认会调用updateComopnent这个方法。
+    new Watcher(vm, updateComponent); // 渲染watcher，默认会调用updateComponent这个方法。
 }
 Vue.prototype.$watch = function(expr, handler, opts){ // $watch函数
     new Watcher(this, expr, handler, opts);

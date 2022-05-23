@@ -1,9 +1,10 @@
 import Vue from 'vue';
 const renderLis = (h, lis) => lis.map(({
     background,
-    key
+    key,
+    tag='li'
 }) => {
-    return h('li', {
+    return h(tag, {
         style: {
             background
         },
@@ -69,6 +70,7 @@ setTimeout(() => {
     // vm.msg = 'fdsadf';
     // vm.msg = 'adsfdsadf';
     vm.msg = 'corleone xiao';
+    vm.msg = 'corleone what'
     vm.arr.push(5);
     vm.arr[4][3][1].push(55);
     // console.log('arr:', vm.arr);
@@ -94,25 +96,24 @@ setTimeout(() => {
     //     key: 'e',
     // }]
     vm.lis = [{
-        background: 'green',
-        key: 'f'
+        background: 'yellow',
+        key: 'b'
+    },{
+        background: 'pink',
+        key: 'd',
     },{
         background: 'red',
         key: 'a'
     },{
-        background: 'indianred',
-        key: 'e'
-    }, {
+        background: 'green',
+        key: 'f'
+    },{
         background: 'blue',
         key: 'c'
-    }, {
-        background: 'yellow',
-        key: 'b'
-    }, {
-        background: 'pink',
-        key: 'd'
-    },
-    {
+    },{
+        background: 'indianred',
+        key: 'e'
+    },{
         background: 'darkblue',
         key: 'd1'
     },]

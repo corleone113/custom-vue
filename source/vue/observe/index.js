@@ -48,15 +48,13 @@ function initData(vm) { // 初始化组件(Vue)实例数据对象
 function createComputedGetter(vm, key) {
     const watcher = vm._watcherComputed[key]; // 这个watcher就是用户定义的计算属性watcher。
     return function () { // 用户使用计算属性才会执行回调计算出值
-        if (watcher) {
-            if (watcher.dirty) { // 如果用到的计算属性的依赖有变化时重新计算watcher.vlaue。
-                watcher.evaluate()
-            }
-            if (Dep.target) { // 让当前栈顶watcher观测计算属性
-                watcher.depend();
-            }
-            return watcher.value; // 返回计算属性
+        if (watcher.dirty) { // 如果用到的计算属性的依赖有变化时重新计算watcher.value。
+            watcher.evaluate()
         }
+        if (Dep.target) { // 让当前栈顶watcher观测此计算属性
+            watcher.depend();
+        }
+        return watcher.value; // 返回计算属性 
     }
 }
 
